@@ -1,0 +1,9 @@
+k run nginx2 --image nginx -n finance
+k get po --all-namespaces
+k run nginx-pod --image nginx:alpine
+k expose po redis --name=redis-service --port=6379
+k create deploy webapp --replicas=3 --image=kodekloud/webapp-color
+k run custom-nginx --image=nginx --port=8080
+k create ns dev-ns
+k create deploy redis-deploy --replicas=2 --image=redis -n dev-ns
+k run httpd --image httpd:alpine --port 80 --expose
