@@ -1,0 +1,31 @@
+# We can manually schedule pod to specific node by specifying in the pod definition file
+nodeName: <Name of the node>
+# Kubernetes won't allow us to change the nodeName after creation of pod,
+# In that case we have to write a Bind object make a post call to api server
+
+apiVersion: v1
+kind: Binding
+metadata:
+  name: nginx
+target:
+  apiVersion: v1
+  kind: Node
+  name: node01
+
+# This need to be converted to JSON
+  {
+    "apiVersion": "v1",
+    "kind": "Binding",
+    "metadata": {
+      "name": "nginx"
+    }
+    "target": {
+      "apiVersion": "v1",
+      "kind": "Node",
+      "name": "node01"
+    }
+  }
+
+# Curl call to API server
+
+curl --header "Content-Type:application/json" --request POST --data 'converted json object' http://$APISERVER/api/v1/namespaces/default/pods/$PODNAME/binding/

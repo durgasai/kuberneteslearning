@@ -1,0 +1,17 @@
+# Labels are assigned to kubernetes objects such as pod, service, deployment
+# it will be defined in metadata section.
+metadata:
+  labels:
+    app: App1
+
+# Selectors are used to select all the kubernetes objects with the same labels
+k get po --selector app=App1
+
+# We can also use selector in ReplicaSet or Deployment objects as follows in the spec section
+selectors:
+  matchLables:
+    app: App1
+
+# We can also use selector in Service objects as follows in the spec section
+selectors:
+  app: App1
