@@ -1,0 +1,10 @@
+What we need to monitor in kubernetes?
+1. How many nodes are present?
+2. How many pods are present?
+3. Performance metrics like Cpu utilization, Mem utilization, Disk utilization.
+There were number of third party tools such as Metric server, Prometheous, Elastic search, Datadog, dynatrace.
+once we install them as a pod, they will collect all the information reg nodes and pods.
+How metrics server can able to get the logs?
+Kubelet containes a component CAdvisor retreive the performance metrics of pods and expose them to kube api server which
+will make them available to metric server
+metric server is in-memory logging solution, it can't give historical performances, we need to go advanced tools for those.

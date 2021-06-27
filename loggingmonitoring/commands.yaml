@@ -1,0 +1,5 @@
+git clone https://github.com/kodekloudhub/kubernetes-metrics-server.git #Get the metric server pod definition file
+k top node
+k top pod
+k logs webapp-1 | grep -i 'USER5'
+k logs webapp-2 simple-webapp | grep -i 'USER4' #if pod has 2 containers and see the logs of simple-webapp contianer
