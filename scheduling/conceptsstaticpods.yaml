@@ -1,0 +1,19 @@
+Pods that were created by the kubelet without using API server are called static pods
+/etc/kubernetes/manifests is the directory where we wil place static pods
+we can specify the path directtly in the kubelet service or by specifyng the path to manifes directory
+
+1. --pod-manifest-path=/etc/kubernetes/manifests
+2. --config=kubeconfig.yaml
+ in the kubeconfig.yaml staticPodPath: /etc/kubernetes/manifests
+
+we can view static pods by docker ps, since there is no kube api server we can't kubectl.
+
+After setting up static pods this can also be known to kube apiserver and they can be only in readonly mode.
+they can be suffuxed by nodename.
+
+Static pods helps in setting up kubernetes controlplane objects. Kubeadm uses this approach to setup cluster.
+
+
+  Identify which node the static pod is created on, ssh to the node and delete the pod definition file.
+  If you don't know the IP of the node, run the kubectl get nodes -o wide command and identify the IP.
+  Then, SSH to the node using that IP. For static pod manifest path look at the file /var/lib/kubelet/config.yaml.

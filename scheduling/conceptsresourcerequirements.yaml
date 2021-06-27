@@ -1,0 +1,19 @@
+cpu and memory are the two things that will define resource requirements.
+there are requests(min required resources for the container) and limits (max resources for the container)
+By default
+requests
+cpu 0.5
+Mem 256 Mi
+limits
+cpu 1
+Mem 512 Mi
+
+we can specify explicitly by defining in pod definition file in spec section
+
+resources:
+  requests:
+    cpu: 1
+    memory: "1Gi"
+  limits:
+    cpu: 2
+    memory: "2Gi"

@@ -1,0 +1,19 @@
+Taints and Tolerations are used to have restricting nodes from accepting certain pods.
+It didn't guarentee you that pod with tolerations not to other nodes which have taints not set.
+Taints were applied to nodes
+Tolerations were applied to pods
+K taint nodes node01 app=blue:tainteffect
+
+tainteffect can be one of the 3 effects
+NoSchedule New pods will not get scheduled on this node, if there are no tolerations on pods.
+PrefereNoschedule New pods will try to not get scheduled on this node, if there are no tolerations on pods.
+NoExecute New pods will not get scheduled on this node, if there are no tolerations on pods. and also existing
+pods will get evicted if they are not tolerant.
+
+Toleartions can be defined in pod definition file in the spec section.
+
+tolerations:
+  -key: "app"
+   operator: "Equal"
+   value: "blue"
+   effect: "NoSchedule"

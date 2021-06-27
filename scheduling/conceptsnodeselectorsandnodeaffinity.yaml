@@ -1,0 +1,41 @@
+Node selectors are used to set limitations on pod to run only on certain nodes.
+We will be specifying them in spec section of pod definition file.
+nodeSelector:
+  size: large
+Before specifying in the pod definition file we need to add label to the node
+k label nodes node01 size=large
+
+If we have any complex restrictions for pods something like pod can be placed in nodes of size large or medium.
+we have to use Node Affinity.
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExperession:
+            - key: kubernetes.io/e2e-az-name
+              operator: In
+              values:
+                - e2e-az1
+                - e2e-az2
+
+operators we can use are In, NotIn
+we can use Exists operator to verify whether the key exists even before comparing the value.
+
+NodeAffinitytypes
+
+there are two phases in pod DuringScheduling and DuringExecuion
+DuringScheduling phase is when the pod is creating for the first time and that doesn't exist.
+DuringExecution phase is when pod exists and some modifications were done for the nodes such as
+changing the label or modifying the label.
+
+DuringScheduling
+Required node with label should be available inorder to schedule the pod
+Preferred node with label should be available inorder to schedule the pod, if not available pod will be
+   scheduled in other available nodes.
+
+DuringExecution
+Ignonred if any updates were done to labels for nodes(modification to labels or removing the lables) pods will
+  continued to run once scheduled.
+Required if any updates were done to labels for nodes(modification to labels or removing the lables) pods will
+  be evicted from the node if node affinity rules were not met.

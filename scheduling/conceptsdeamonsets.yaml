@@ -1,0 +1,5 @@
+This are similar to ReplicaSet, but this will make sure pod will run in each node, if any new node was
+created pod will be scheduled on that new node. if any node is removed pod will be removed.
+
+usecase scnearious were while implementing logging solution.
+Also we can use this while implementing network solution.

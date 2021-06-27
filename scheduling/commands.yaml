@@ -1,0 +1,11 @@
+k get po --selector env=dev
+k get po --selector bu=finance
+k get all --selector env=prod
+k get po --selector env=prod,bu=finance,tier=frontend
+k describe node node01 | grep -i taint
+k taint nodes node01 spray=mortein:NoSchedule # taint the node
+k taint nodes controlplane node-role.kubernetes.io/master:NoSchedule- #untaint the node
+k label nodes node01 color=blue
+k get ds --all-namespaces
+k get po -o wide -n kube-system
+k describe ds kube-flannel-ds -n kube-system
