@@ -1,0 +1,107 @@
+inorder to pass environment variables to the containers we will be giving env section in pod definition file
+env is an array we can pass name and value for each element
+env:
+  - name: APP_COLOR
+    value: blue
+ instead of passing plain text, we can use configmap and secrets
+env:
+  - name: APP_COLOR
+    valueFrom:
+      configMapKeyRef:
+env:
+  - name: APP_COLOR
+    valueFrom:
+      secretKeyRef:
+
+ConfigMaps are key, value pairs of data which are used to store all the variables in a seperate file and inject
+these config map to pod
+
+1. Create a configmap
+Imperative
+k create cm <configmapname> --from-literal=<key>=<value> --from-literal=<key1>=<value1>
+if the env variables got increased it is difficult to pass multiple variables in single command
+instead we can place it in a file and reference the file
+k create cm <cinfigmapname> --from-file=<path to file>
+Declerative
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  APP_COLOR: blue
+  APP_MODE: prod
+
+k create -f <cm.yaml>
+It will create a kubernetes object.
+
+k get cm
+k describe cm
+2. Inject a configmao to the pod.
+Entire configmap so that all the environment variables will be available for the container
+envFrom:
+  - configMapRef:
+      name: app-config
+single environment variable as well
+env:
+  - name: APP_COLOR
+    envFrom:
+      configMapKeyRef:
+        name: app-config
+        key: APP_COLOR
+we can get from volume
+volumes:
+  - name: app-config-volume
+    configMap:
+      name: app-config
+
+Secrets are kubernetes object that are used to store sensitive data
+We will follow the same approach for secrets which we followed for CM
+  1. Create a Secret
+  Imperative
+  k create secret generic <secretname> --from-literal=<key>=<value> --from-literal=<key1>=<value1>
+  if the env variables got increased it is difficult to pass multiple variables in single command
+  instead we can place it in a file and reference the file
+  k create secret generic <secretname> --from-file=<path to file>
+  Declerative
+while passing data in the declerative way those need to be in encoded form.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+data:
+  APP_COLOR: Hashed@##DTF
+  APP_MODE: Hashed@#$DFGaws$%
+
+  k create -f <secret.yaml>
+  It will create a kubernetes object.
+  k get secret
+  k describe secret secretname #this will hide the secret data
+  k get secret <secretname> -o yaml # this will display hashed data
+
+  encode and decode secrets
+
+  encode
+  echo -n "data" | base64
+  decode
+  echo -n "hasedhdata" | base64 -d
+  2. Inject a configmao to the pod.
+  Entire configmap so that all the environment variables will be available for the container
+envFrom:
+  - secretRef:
+      name: app-config
+  single environment variable as well
+env:
+  - name: APP_COLOR
+    envFrom:
+      secretKeyRef:
+        name: app-config
+        key: APP_COLOR
+  we can get from volume
+volumes:
+  - name: app-config-volume
+    secret:
+      name: app-config
+
+If we mount secrets as volumes each variable name will be created as file and value will be the contents
+of the file.
+

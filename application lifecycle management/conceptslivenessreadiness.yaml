@@ -1,0 +1,30 @@
+Readiness Probe
+even when the pod is in ready state, it might take an addditional 10 to bring up application.
+instead of service depending on state of pod for routing we will be setting up appllication specific health checks
+Liveness Probe
+everytime when there is any issue with application kubernetes will try to restart the container,
+we can define liveness probe to identify if it is getting restart because of some application related bugs
+
+we can specify in the spe section
+
+livenessProbe: # to check if it can get response on web page over api
+  httpGet:
+    path: /api/healty
+    port: 8080
+
+livenessProbe: # to check if it can listen over port 3306
+  tcpSocket:
+    port: 3306
+
+livenessProbe:
+  exec:
+    command:
+      - cat
+      - /app/is_healthy
+
+we can also have other properties
+initialDelaySeconds: 10 if we are sure that application might take 10 sec to warmup
+periodSeconds: 5 How frequently I need to do probe on application
+faultThreshold: 8 in order to increase failure attempts.
+
+both configurations are same only liveness and readiness will change

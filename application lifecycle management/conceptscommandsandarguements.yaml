@@ -1,0 +1,21 @@
+CMD ENTRYPOINT
+
+CMD - defines the process to be run when the container starts.
+1. if we append a command that need to be run during the run command that will overide the process that need to be run in the CMD instruction.
+we can specify command as follows
+
+CMD sleep 5
+CMD ["sleep","5"]
+
+command  line arguements will get appnded in the ENTRYPOINT instruction. where as arguements will get replaced when we use CMD instruction.
+ENTRYPOINT ["sleep"]
+
+both ENTRYPOINT and CMD in the docker file if we want to make default value for the ENTRYPOINT instruction . but both sould be written in JSON structure.
+
+If we want modify the entry point command, then we can use
+docker run --entrypoint <command> <image-name> <arguement>
+
+when we use both CMD and entrypoint.
+args section in kubernetes works like CMD in docker file, command section will works like entrypoint.
+command: ["sleep2.0"] when you want to provide the command to run.
+args: ["10"] when you want to provide arguements to the command.

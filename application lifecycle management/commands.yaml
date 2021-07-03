@@ -1,0 +1,14 @@
+k rollout status <name of deployment>
+k rollout undo <name of deployment>
+
+k get cm
+k create cm webapp-config-map --from-literal=APP_COLOR=darkblue
+
+k get secrets
+k describe secret default-token-7d2fx
+
+echo -n "password123" | base64
+
+k get serviceaccounts / k get sa
+
+k create sa dashboard-sa
