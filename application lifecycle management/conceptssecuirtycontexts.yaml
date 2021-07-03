@@ -1,0 +1,51 @@
+process isolation.
+
+Docker will uses namespaces to isolate the containers
+PID running in the container is the another PID running in the underlying host.
+
+by default docker will run as a root user
+docker run ubuntu sleep 3600
+if I want to to run with specific user
+docker run --user=1000 ubuntu sleep 3600
+
+other wise we can also include user instruction in docker file and build an image and no need to give while running container
+FROM ubuntu
+USER 1000
+
+docker built -t my-ubuntu-image .
+
+docker run my-ubuntu-image sleep 36000
+
+Linux capabilities can be find at /usr/include/linux/capabilty.h
+some of them are CHOWN, KILL, SETUID, MAC_ADMIN, SYS_ADMIN, SYS_CHROOT
+
+by default when docker is running a container it will run with minimcal capabilities
+we can overiride and add the capability by using
+docker run --cap-add MAC_ADMIN ubuntu
+similary we can also remove previleges
+docker run --cap-drop KILL ubuntu
+To give all previleges
+docker run --previliged ubuntu
+
+we can also specify security contexts in kubernetes as well
+if we provide settings at pod level it will carry out to all the containers in the pod.
+if we have setting for both settings for container will override the pod settings
+specifying at pod level
+Capabilities were supported at only container level not pod level.
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+    - name: ubuntu
+      image: ubuntu
+
+specifying at container level
+
+spec:
+  containers:
+    - name: ubuntu
+      image: ubuntu
+      securityContext:
+        runAsUser: 1000
+        capabilities:
+          add: [ "MAC_ADMIN" ]

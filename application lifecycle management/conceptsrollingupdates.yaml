@@ -1,0 +1,18 @@
+Rollout and Revision
+When first deployment was created new rollout will be created which will create a new Revision
+when there is any update in application was made new rollout and revision will be created
+
+So This will helps in keep tracking of updates to application and quicky rollback if we want to revert changes.
+
+Check the status of rollout
+k rollout status <name of deployment>
+To see the revisions and history of rollout
+k rollout history <name of deployment>
+Deployment strategies:
+  recreate and Rolling update
+
+Rolling update is the default deployment stategy.
+
+Recreate strategy will bring down all pods at a time and then bring up the pods with updates.
+Rolling update will bring one pod down and then one pod up, so that application will not be down at any time.
+

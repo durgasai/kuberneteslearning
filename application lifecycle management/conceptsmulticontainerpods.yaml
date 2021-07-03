@@ -1,0 +1,19 @@
+multicontainer pods serve the purpose of two different containers sharing same lifecycle(creating and destroying) storage and
+networking.
+in this way we can seperate the functionality in the same pod.
+containers:
+  - name:
+    image:
+  - name:
+    image:
+
+Design patterns
+
+SideCar
+Deploying a logging agent for collecting logs and sending them to the log server
+adapter container
+Process the logs before sending it to central server.
+Ambassador
+lets take an example application need to talk to database and we need to write a logic to connect to specific database
+based on environment. this can be out source to another container with in the pod and we can refer localhost to get the
+database information.
